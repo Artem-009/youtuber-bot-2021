@@ -4,10 +4,10 @@ require('events').EventEmitter.defaultMaxListeners = 0;
 const express = require('express');
 const app = express();
 app.get('/', (req, res) => {
-res.json('running ...');
+  res.json('running ...');
 });
 app.get("/", (request, response) => {
-response.sendStatus(200);
+  response.sendStatus(200);
 });
 app.listen(process.env.PORT);
 
@@ -19,109 +19,48 @@ const fetch = require("node-fetch");
 
 const config = require("./config.json");
 
+
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+client.events = new Discord.Collection();
 
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	client.commands.set(command.name, command);
-}
-
+['command_handler', 'event_handler'].forEach(handler => {
+  require(`./handlers/${handler}`)(client, Discord)
+})
 
 
-const activities_list = [
-    "префикс /", 
-    "Node.js",
-    "JavaScript", 
-    "Discord",
-    "COVID-19",
-    "смотрит видео ютубера",
-    "не играет"
-    ]; // creates an arraylist containing phrases you want your bot to switch through.
 
+// client.on('message', message => {
+//   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
 
-client.on('ready', () => {
-  
-  var textChannel = client.channels.cache.get("797969685747335198");
-  
-      const embedOnline = new Discord.MessageEmbed()
-     .setTitle(`<:online:798167234840231936> Я онлайн! Меня кто-то включил или сам youtuber включил.`)
-     .setColor("#00BFFF")
-     .setTimestamp()      
-    // textChannel.send(embedOnline);
-  
-  
-  console.log(`Logged in as ${client.user.tag}!`);
-  
-  
-  setInterval(() => {
-        const index = Math.floor(Math.random() * (activities_list.length - 1) + 1); // generates a random number between 1 and the length of the activities array list (in this case 5).
-        client.user.setActivity(activities_list[index]); // sets bot's activities to one of the phrases in the arraylist.
-    }, 10000);
-  
-  client.user.setActivity(config.activity, { type: 'PLAYING' });
-  // client.user.setStatus('dnd'); // idle, dnd, online ...
-  
-});
+//   const args = message.content.slice(config.prefix.length).trim().split(/ +/);
+//   const command = args.shift().toLowerCase();
 
+//   if (command === 'ping') {
+//     client.commands.get('ping').execute(client, message, args);
+//   } else if (command === 'say') {
+//     if (message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
+//     client.commands.get('say').execute(client, message, args);
+//   } else if (command === 'uptime') {
+//     client.commands.get('uptime').execute(client, message, args);
+//   } else if (command === 'slowmode') {
+//     if (message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
+//     client.commands.get('slowmode').execute(client, message, args);
+//   } else if (command === 'lock') {
+//     if (message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
+//     client.commands.get('lock').execute(client, message, args);
+//   } else if (command === 'unlock') {
+//     if (message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
+//     client.commands.get('unlock').execute(client, message, args);
+//   } else if (command === 'nitro') {
+//     client.commands.get('nitro').execute(client, message, args);
+//   } else if (command === 'help') {
+//     client.commands.get('help').execute(client, message, args); // help
+//   } else if (command === 'activity') {
+//     if (message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
+//     client.commands.get('activity').execute(client, message, args);
+//   }
 
-client.on('ready', () => {
-  const ytdl = require('ytdl-core');
-      
-   const channel = client.channels.cache.get("643218217891790861");
-  if (!channel) return console.error("The channel does not exist!");
-  channel.join().then(connection => {
-    console.log("Successfully connected to voice channel.");
-    connection.play(ytdl('https://youtu.be/EQj9s9VAV64', { filter: 'audioonly' })); 
-  })
-  
-  
-});
-
-
-client.on('guildMemberAdd', member => {
-  const channel = member.guild.channels.cache.find(ch => ch.name === '│основной');
-  if (!channel) return;
-      const welcomeEmbedMsg = new MessageEmbed()
-      .setTitle(`Добро пожаловать!`)
-      .setColor('#D0FF00')
-      .setDescription(`${member}, Привет!\nРасполагайся ;)\nЕсли будет время, прочти правила тут: <#796400081783619665>, чтобы не нарушать ничего..\nУдачи тебе!`);
-  channel.send(welcomeEmbedMsg);
-});
-  
-
-client.on('message', message => {
-	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
-
-	const args = message.content.slice(config.prefix.length).trim().split(/ +/);
-	const command = args.shift().toLowerCase();
-
-	if (command === 'ping') {
-		client.commands.get('ping').execute(client, message, args);
-	} else if (command === 'say') {  
-      if(message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
-      client.commands.get('say').execute(client, message, args);
-  } else if (command === 'uptime') {
-    client.commands.get('uptime').execute(client, message, args);
-  } else if (command === 'slowmode') {
-    if(message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
-    client.commands.get('slowmode').execute(client, message, args);
-  } else if (command === 'lock') {
-    if(message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
-    client.commands.get('lock').execute(client, message, args);
-  } else if (command === 'unlock') {
-    if(message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
-    client.commands.get('unlock').execute(client, message, args);
-  } else if (command === 'nitro') {
-    client.commands.get('nitro').execute(client, message, args);
-  } else if (command === 'help') {
-    client.commands.get('help').execute(client, message, args);
-  }
-  
-  
-  
-  
-});
+// });
 
 
 
@@ -130,21 +69,52 @@ client.on('message', message => {
 
 client.on('message', message => { // <a:IMXO:797221960508768267>
   console.log(`${message.author.tag} в канале ${message.channel.name} сказал: ${message.content}`);
-    
-    if (message.content.toLowerCase() === 'имхо') {
-    message.channel.send('<a:IMXO:797221960508768267>');
-    message.react('<a:IMXO:797221960508768267>');
+
+    const webhookClient = new Discord.WebhookClient('809945336940462090', 'jonXYbmC1ABxAL8AulPtS5P_aW5ZcSVSstdodYcHjx7Dx_8xPeE9D61CrUuXDXnQve9W');
+
+  if (message.content.toLowerCase() === 'имхо') {
+          webhookClient.send('<a:IMXO:797221960508768267>', {
+	      username: message.author.username,
+	      avatarURL: message.author.displayAvatarURL()
+        });
+  message.delete();
   }
   if (message.content.toLowerCase() === 'керби') {
-    message.channel.send('<a:defaultKirby:797221758976655370>');
-    message.react('<a:defaultKirby:797221758976655370>');
+    webhookClient.send('<a:defaultKirby:797221758976655370>', {
+	      username: message.author.username,
+	      avatarURL: message.author.displayAvatarURL()
+        });
+    message.delete();
   }
   if (message.content.toLowerCase() === 'partyblob1') {
-    message.channel.send('<a:partyblob1:797159937846673448>');
-    message.react('<a:partyblob1:797159937846673448>');
+    webhookClient.send('<a:partyblob1:797159937846673448>', {
+	      username: message.author.username,
+	      avatarURL: message.author.displayAvatarURL()
+        });
+    message.delete();
   }
-  
-  
+  if (message.content.toLowerCase() === 'nitro') {
+    webhookClient.send('<a:nitro:797159937469186060>', {
+	      username: message.author.username,
+	      avatarURL: message.author.displayAvatarURL()
+        });
+    message.delete();
+  }
+  if (message.content.toLowerCase() === 'DiscordLoading') {
+    webhookClient.send('<a:DiscordLoading:677859494499450880>', {
+	      username: message.author.username,
+	      avatarURL: message.author.displayAvatarURL()
+        });
+    message.delete();
+  }
+  if (message.content.toLowerCase() === 'amongusrunning') {
+    webhookClient.send('<a:amongusrunning:797159938430468107>', {
+	      username: message.author.username,
+	      avatarURL: message.author.displayAvatarURL()
+        });
+    message.delete();
+  }
+
 });
 
 
@@ -152,20 +122,20 @@ client.on('message', message => { // <a:IMXO:797221960508768267>
 client.on("message", gotMessage);
 async function gotMessage(msg) {
   // use cleanContent instead of content to remove tagging
-    let tokens = msg.cleanContent.split(" ");
+  let tokens = msg.cleanContent.split(" ");
 
-    if (tokens[0] == config.prefix + "gif") {
-      let keywords = "youtube";
-      if (tokens.length > 1) {
-        keywords = tokens.slice(1, tokens.length).join(" ");
-      }
-      let url = `https://api.tenor.com/v1/search?q=${keywords}&key=${process.env.TENOR_KEY}&contentfilter=high`;
-      let response = await fetch(url);
-      let json = await response.json();
-      const index = Math.floor(Math.random() * json.results.length);
-      msg.channel.send(json.results[index].url);
-      msg.channel.send("GIF from Tenor: " + keywords);
+  if (tokens[0] == config.prefix + "gif") {
+    let keywords = "youtube";
+    if (tokens.length > 1) {
+      keywords = tokens.slice(1, tokens.length).join(" ");
     }
+    let url = `https://api.tenor.com/v1/search?q=${keywords}&key=${process.env.TENOR_KEY}&contentfilter=high`;
+    let response = await fetch(url);
+    let json = await response.json();
+    const index = Math.floor(Math.random() * json.results.length);
+    msg.channel.send(json.results[index].url);
+    msg.channel.send("GIF from Tenor: " + keywords);
+  }
 }
 
 
@@ -173,101 +143,99 @@ async function gotMessage(msg) {
 //  детектор плохих слов ...
 const swearWords = ["fuck", "suck", "сука", "блять"];
 client.on('message', message => {
-if( swearWords.some(word => message.content.includes(word)) ) {
-  message.reply("Ты сказал очень нехорошее слово! Не делай этого.");
-  message.delete(); // удаляем сообщение, чтобы никто это не видел.
-}
+  if (swearWords.some(word => message.content.includes(word))) {
+    message.reply("Ты сказал очень нехорошее слово! Не делай этого.");
+    message.delete(); // удаляем сообщение, чтобы никто это не видел.
+  }
 });
-
-
-
-// Манипуляции с Canvas ...
-const Canvas = require('canvas');
-
-const applyText = (canvas, text) => {
-	const ctx = canvas.getContext('2d');
-	let fontSize = 70;
-
-	do {
-		ctx.font = `${fontSize -= 10}px sans-serif`;
-	} while (ctx.measureText(text).width > canvas.width - 300);
-
-	return ctx.font;
-};
-
-client.on('guildMemberAdd', async member => {
-	const channel = member.guild.channels.cache.find(ch => ch.name === '│основной');
-	if (!channel) return;
-
-	const canvas = Canvas.createCanvas(800, 250); // 700, 250
-	const ctx = canvas.getContext('2d');
-
-	const background = await Canvas.loadImage('https://cdn.glitch.com/88e46f1f-5b30-452a-835e-c4535f187a7d%2Fwallpaper.jpeg');
-	ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-
-	ctx.strokeStyle = '#74037b';
-	ctx.strokeRect(0, 0, canvas.width, canvas.height);
-
-	ctx.font = '28px sans-serif';
-	ctx.fillStyle = '#ffffff';
-	ctx.fillText('Welcome to the server,', canvas.width / 2.5, canvas.height / 3.5);
-
-	ctx.font = applyText(canvas, `${member.displayName}!`);
-	ctx.fillStyle = '#ffffff';
-	ctx.fillText(`${member.displayName}!`, canvas.width / 2.5, canvas.height / 1.8);
-
-	ctx.beginPath();
-	ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
-	ctx.closePath();
-	ctx.clip();
-
-	const avatar = await Canvas.loadImage(member.user.displayAvatarURL({ format: 'jpg' }));
-	ctx.drawImage(avatar, 25, 25, 200, 200);
-
-	const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
-
-	channel.send(attachment);
-	// channel.send(`Welcome to the server, ${member}!`, attachment);
-});
-
-client.on('message', message => {
-	if (message.content.toLowerCase() === config.prefix + 'j') {
-		client.emit('guildMemberAdd', message.member);
-	}
-});
-
 
 
 
 
 client.on('message', message => {
   if (message.channel.id === '805469540594745375') {
-  if (message.content.toLowerCase() === process.env.number) {
-       
-    message.channel.overwritePermissions([
-      {
-         id: '643218217350856724', // @everyone
-         deny: ['SEND_MESSAGES'],
-      },
-    ]).catch(console.error);
-      
-    const embedLock = new Discord.MessageEmbed()
-     // .setTitle(`<a:check:797107045488001025> Розыгрыш чего-то там окончен.`)
-     .setTitle(`<a:check:797107045488001025> Тестовый розыгрыш завершен.`)
-     .setColor("GREEN")
-    
-    message.channel.send(embedLock);
-    message.channel.send(`Победитель - <@${message.author.id}>! :tada:`);
-    message.channel.send(`Скоро будет выдан приз ...`);
-    message.react('<a:partyblob1:797159937846673448>');
-    
-  }
+    if (message.content.toLowerCase() === process.env.number) {
+
+      message.channel.overwritePermissions([
+        {
+          id: '643218217350856724', // @everyone
+          deny: ['SEND_MESSAGES'],
+        },
+      ]).catch(console.error);
+
+      const embedLock = new Discord.MessageEmbed()
+        // .setTitle(`<a:check:797107045488001025> Розыгрыш чего-то там окончен.`)
+        .setTitle(`<a:check:797107045488001025> Тестовый розыгрыш завершен.`)
+        .setColor("GREEN")
+        .setTimestamp()
+
+      message.channel.send(embedLock);
+      message.channel.send(`Победитель - <@${message.author.id}>! :tada:`);
+      message.channel.send(`Скоро будет выдан приз ...`);
+      message.react('<a:partyblob1:797159937846673448>');
+
     }
+  }
 });
 
-// Сделать "угадайку"... пользователь должен угадать число и канал блокируется от сообщений.
-// И потом давать приз .....какой-то
-// для этого сделать отдельный канал.
+
+
+
+
+
+
+// counting game ...
+  client.on('message', async message =>{
+    if (message.channel.id === '811316292211572796') {    
+     let webhookClient = new Discord.WebhookClient('811316534499868723', 'qhzffRsaQiOo6RnaX5UTbMh_SgFwAbRqH0iBnxNYQyyY2-mNv1PxYqc0nFxZoE6vlJjF');
+     let count = JSON.parse(fs.readFileSync("./count.json", "utf8"));
+    if (message.author.bot) return;
+    if (Number(message.content) === count + 1) {
+      message.delete();
+      count++
+      webhookClient.send(count, {
+          username: message.author.username,
+          avatarURL: message.author.displayAvatarURL()
+        });
+    fs.writeFile("./count.json", JSON.stringify(count), (err) => {
+      if (err) console.error(err)
+    });
+    } else {
+      message.delete();
+    }
+      
+   }
+});
+
+
+
+
+
+// Ставит реакции в канале #мемы | перенесено с старого бота ...
+client.on('message', message => {
+  if (message.channel.id === "646120581779161090") {
+      message.react('😂')
+          .then(() => { 
+              message.react('👀')
+          });
+  }
+});
+
+// ------------------------------------------------------
+
+
+client.on('message', message => {
+  if (message.content === 'Слава Украине') {
+    message.channel.send('Героям Слава!');
+  }
+  if (message.content.toLowerCase() === config.prefix + 'healme') {
+    message.reply('Вы вылечены от вируса!');
+  }
+});
+
+
+
+
 
 
 
