@@ -1,6 +1,5 @@
 require('events').EventEmitter.defaultMaxListeners = 0;
 
-
 const express = require('express');
 const app = express();
 app.get('/', (req, res) => {
@@ -26,43 +25,6 @@ client.events = new Discord.Collection();
 ['command_handler', 'event_handler'].forEach(handler => {
   require(`./handlers/${handler}`)(client, Discord)
 })
-
-
-
-// client.on('message', message => {
-//   if (!message.content.startsWith(config.prefix) || message.author.bot) return;
-
-//   const args = message.content.slice(config.prefix.length).trim().split(/ +/);
-//   const command = args.shift().toLowerCase();
-
-//   if (command === 'ping') {
-//     client.commands.get('ping').execute(client, message, args);
-//   } else if (command === 'say') {
-//     if (message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
-//     client.commands.get('say').execute(client, message, args);
-//   } else if (command === 'uptime') {
-//     client.commands.get('uptime').execute(client, message, args);
-//   } else if (command === 'slowmode') {
-//     if (message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
-//     client.commands.get('slowmode').execute(client, message, args);
-//   } else if (command === 'lock') {
-//     if (message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
-//     client.commands.get('lock').execute(client, message, args);
-//   } else if (command === 'unlock') {
-//     if (message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
-//     client.commands.get('unlock').execute(client, message, args);
-//   } else if (command === 'nitro') {
-//     client.commands.get('nitro').execute(client, message, args);
-//   } else if (command === 'help') {
-//     client.commands.get('help').execute(client, message, args); // help
-//   } else if (command === 'activity') {
-//     if (message.author.id !== config.ownerID) return message.channel.send(config.NO_ENTRY_message);
-//     client.commands.get('activity').execute(client, message, args);
-//   }
-
-// });
-
-
 
 
 
@@ -242,4 +204,5 @@ client.on('message', message => {
 
 
 
-client.login(process.env.TOKEN);
+// client.login(process.env.TOKEN);
+client.login('ODA3Mjg3MjcyODU2NzQ4MTAy.YB1y3A.u8in6bDRsaN5lqZZkl3YVqF7N5s');
