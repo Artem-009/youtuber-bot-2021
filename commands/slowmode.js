@@ -1,7 +1,8 @@
 module.exports = {
 	name: 'slowmode',
 	description: 'Устанавливает медленный режим ...',
-	execute(client, message, args) {
+	execute(client, message, args, config) {
+     if (!message.author.id == config.ownerID) return message.channel.send('<a:alert:803281138599985192> Не разрешено!');
   var args = message.content.substr(1).split(/ +/);
    if(args[1] != null){
      message.channel.setRateLimitPerUser(args[1] , "была использована команда /slowmode");

@@ -8,7 +8,7 @@ module.exports = (Discord, client) => {
     //  textChannel.send(embedOnline);
 
       // client.user.setActivity(config.activity, { type: 'PLAYING' });
-      client.user.setActivity(`${client.users.cache.size} участников`, {type: "WATCHING"});
+      client.user.setPresence({ activity: { type: 'WATCHING', name: '@everyone' }, status: 'dnd' })
 
       const ytdl = require('ytdl-core');
       const channel = client.channels.cache.get("643218217891790861");

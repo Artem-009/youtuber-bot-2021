@@ -1,20 +1,23 @@
 {
-  "name": "youtuber-bot-2020",
+  "name": "ytbr-djs2020",
   "version": "0.0.1",
-  "description": "Private discord bot for my server ...",
+  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
+    "canvas": "^2.6.1",
     "discord.js": "^12.5.1",
     "express": "^4.17.1",
+    "ffmpeg-static": "^4.2.7",
     "fs": "^0.0.2",
+    "moment": "^2.29.1",
+    "moment-duration-format": "^2.3.2",
+    "node-fetch": "^2.6.1",
     "node-opus": "^0.3.3",
     "opusscript": "^0.0.7",
-    "ytdl-core": "^4.4.4",
-    "node-fetch": "^2.6.1",
-    "canvas": "^2.6.1"
+    "ytdl-core": "^4.4.4"
   },
   "engines": {
     "node": "12.x"
