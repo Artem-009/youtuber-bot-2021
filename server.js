@@ -26,7 +26,10 @@ client.events = new Discord.Collection();
   require(`./handlers/${handler}`)(client, Discord)
 })
 
-
+// const memberCounter = require('./counters/member-counter.js');
+// client.on('ready', () => {
+//   memberCounter(client);
+// });
 
 
 client.on('message', message => { // <a:IMXO:797221960508768267>
