@@ -5,7 +5,7 @@ module.exports = {
      if (!message.author.id == config.ownerID) return message.channel.send('<a:alert:803281138599985192> Не разрешено!');
   var args = message.content.substr(1).split(/ +/);
    if(args[1] != null){
-     message.channel.setRateLimitPerUser(args[1] , "была использована команда /slowmode");
+     message.channel.setRateLimitPerUser(args[1] , "была использована команда slowmode");
      message.delete();
       const Discord = require('discord.js');
       const embedSlowmode = new Discord.MessageEmbed()
