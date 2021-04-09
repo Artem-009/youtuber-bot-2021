@@ -12,8 +12,8 @@ module.exports = (Discord, client) => {
     //  textChannel.send(embedOnline);
 
       // client.user.setActivity(config.activity, { type: 'PLAYING' });
-      // client.user.setPresence({ activity: { type: 'WATCHING', name: '@everyone' }, status: 'dnd' })
-      client.user.setPresence({ activity: { type: 'LISTENING', name: 'радио' }, status: 'dnd' })
+       client.user.setPresence({ activity: { type: 'WATCHING', name: '@everyone' }, status: 'dnd' })
+      //client.user.setPresence({ activity: { type: 'LISTENING', name: 'радио' }, status: 'dnd' })
 
       const ytdl = require('ytdl-core');
       const channel = client.channels.cache.get("643218217891790861");

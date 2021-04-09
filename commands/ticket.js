@@ -1,19 +1,17 @@
 module.exports = {
   name: "ticket",
-  aliases: [],
-  permissions: [],
   description: "open a ticket!",
-  async execute(message, args, cmd, client, Discord) {
+  async execute(client, Discord, message) {
     const channel = await message.guild.channels.create(`ticket: ${message.author.tag}`);
     
-    channel.setParent("821764198617972776");
+    channel.setParent("822189388292685905");
 
     channel.updateOverwrite(message.guild.id, {
-      SEND_MESSAGE: false,
+      SEND_MESSAGES: false,
       VIEW_CHANNEL: false,
     });
     channel.updateOverwrite(message.author, {
-      SEND_MESSAGE: true,
+      SEND_MESSAGES: true,
       VIEW_CHANNEL: true,
     });
 
