@@ -25,6 +25,6 @@ module.exports = {
                   type: types
               }
           })
-          message.channel.send(`**${message.author.username}** Готово :D`) 
+          message.reply(`done..`).then(message.delete());
 	},
 };

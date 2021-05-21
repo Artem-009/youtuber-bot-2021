@@ -5,7 +5,7 @@ module.exports = {
      if (!message.author.id == config.ownerID) return message.channel.send('<a:alert:803281138599985192> Не разрешено!');
     message.channel.overwritePermissions([
       {
-         id: '657655133307535360', // @Member
+         id: '657655133307535360', // @User
          allow: ['SEND_MESSAGES'],
       },
     ]);

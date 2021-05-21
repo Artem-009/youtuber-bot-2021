@@ -7,11 +7,11 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "canvas": "^2.6.1",
-    "cheerio": "^1.0.0-rc.5",
-    "discord.js": "^12.5.1",
+    "canvas": "^2.8.0",
+    "cheerio": "^1.0.0-rc.9",
+    "discord.js": "^12.5.3",
     "express": "^4.17.1",
-    "ffmpeg-static": "^4.2.7",
+    "ffmpeg-static": "^4.3.0",
     "fs": "^0.0.2",
     "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
@@ -21,7 +21,7 @@
     "opusscript": "^0.0.7",
     "request-promise": "^4.2.6",
     "weather-js": "^2.0.0",
-    "ytdl-core": "^4.4.4"
+    "ytdl-core": "^4.8.0"
   },
   "engines": {
     "node": "12.x"

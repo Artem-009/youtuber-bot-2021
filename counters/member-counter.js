@@ -4,6 +4,6 @@ module.exports = async (client) =>{
         const memberCount = guild.memberCount;
         const channel = guild.channels.cache.get('822155385226002503');
         channel.setName(`Всего участников: ${memberCount.toLocaleString()}`);
-        console.log('Обновление количества участников');
-    }, 300000); // 300.000 = 5 минут
+        // console.log('Обновление количества участников');
+    }, 60000); // 60.000 миллисекунд = 1 минута
 }

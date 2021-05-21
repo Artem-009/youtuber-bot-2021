@@ -31,7 +31,7 @@ client.events = new Discord.Collection();
 
 
 client.on('message', message => { // <a:IMXO:797221960508768267>
-  console.log(`${message.author.tag} в канале ${message.channel.name} сказал: ${message.content}`);
+  // console.log(`${message.author.tag} в канале ${message.channel.name} сказал: ${message.content}`);
 
     const webhookClient = new Discord.WebhookClient('809945336940462090', 'jonXYbmC1ABxAL8AulPtS5P_aW5ZcSVSstdodYcHjx7Dx_8xPeE9D61CrUuXDXnQve9W');
 
@@ -127,14 +127,17 @@ client.on('message', message => {
       ]).catch(console.error);
 
       const embedLock = new Discord.MessageEmbed()
-        // .setTitle(`<a:check:797107045488001025> Розыгрыш чего-то там окончен.`)
-        .setTitle(`<a:check:797107045488001025> Тестовый розыгрыш завершен.`)
+        .setAuthor(`<a:check:797107045488001025> Конкурс завершен!`)
         .setColor("GREEN")
         .setTimestamp()
 
       message.channel.send(embedLock);
       message.channel.send(`Победитель - <@${message.author.id}>! :tada:`);
-      message.channel.send(`Скоро будет выдан приз ...`);
+
+      var role = message.guild.roles.cache.find(role => role.id === "839250283854299157");
+      var user = message.guild.members.cache.get(message.author.id);
+      user.roles.add(role);
+      message.channel.send(`Роль успешно выдана! =)`);
       message.react('<a:partyblob1:797159937846673448>');
 
     }
