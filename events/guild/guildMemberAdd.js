@@ -1,6 +1,6 @@
 const Canvas = require('canvas');
 const { registerFont, createCanvas } = require('canvas')
-registerFont('./fontFolder/comicsans.ttf', { family: 'Comic Sans' })
+registerFont('./fonts/comic-sans.ttf', { family: 'Comic Sans' })
 
 module.exports = async (Discord, client, member) => {
 
