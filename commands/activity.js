@@ -25,6 +25,6 @@ module.exports = {
                   type: types
               }
           })
-          message.reply(`done..`).then(message.delete());
+          message.reply(`done..`);
 	},
 };
